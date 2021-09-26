@@ -1,15 +1,31 @@
 import React from 'react';
-import { Component } from 'react';
-import {View , Text} from 'react-native';
+import {Text, TextInput, View ,TouchableOpacity} from 'react-native';
 
-export default class SignIn extends Component {
-    render() {
-        return (
+const SignIn = () => {
+    
+    return (
+        <View>
+            <Text>Welcome to the kraya please login</Text>
+            <TextInput placeholder="firstname" />
+            <TextInput placeholder="lastname" />
+            <TextInput placeholder="email" />
+            <TextInput
+            multiline={true}
+            numberOfLines={4} 
+            placeholder="address" />
+
+            <TextInput placeholder="Username" />
+            <TextInput placeholder="password" secureTextEntry />
             <View>
-                <Text>
-                    Sign In
-                </Text>
+                <TouchableOpacity
+                onPress={() => alert('login in')}
+                >
+                    <Text>Register</Text>
+                </TouchableOpacity>
             </View>
-        )
-    }
+
+        </View>
+    )
 }
+
+export default SignIn;

@@ -1,11 +1,12 @@
 import React,{Component} from 'react';
+import Login from './pages/login';
 import {View,Text} from 'react-native';
 
 class App extends Component {
   render() {
     return(
       <View>
-        <Text>Welcome to the Project</Text>
+        <Login />
       </View>
     )
   }

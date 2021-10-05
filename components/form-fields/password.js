@@ -1,13 +1,28 @@
 import React from 'react';
 import {View, TextInput, Text} from 'react-native';
 
-const PasswordField = ({placeholder, name}) => {
-    return(
-        <View>
-            <TextInput class="inputVal" secureTextEntry placeholder={placeholder} name={name} value  />
-            <Text>Please enter the valid value</Text>
-        </View>
-    );
-} 
+const PasswordField = ({
+  placeholder,
+  name,
+  value,
+  errorMessage,
+  handleValidation,
+  handleChange,
+}) => {
+  return (
+    <View>
+      <TextInput
+        class="inputVal"
+        secureTextEntry
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onBlur={handleValidation}
+        onChangeText={handleChange}
+      />
+      {errorMessage ? <Text>{errorMessage}</Text> : null}
+    </View>
+  );
+};
 
 export default PasswordField;

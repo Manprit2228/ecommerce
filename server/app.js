@@ -77,7 +77,25 @@ app.post('/update-data',(req,res) => {
     }).catch(err=>{
         console.log(err);
     })
-})
+});
+
+app.get('/usercheck', function(req, res) {
+    users.findOne({username:req.body.username}, function(err, user){
+        if(err) {
+          console.log(err);
+        }
+        var message;
+        if(user) {
+          console.log(user)
+            message = "user exists";
+            console.log(message)
+        } else {
+            message= "user doesn't exist";
+            console.log(message)
+        }
+        res.json({message: message});
+    });
+});
  
 app.listen(3000,() => {
     console.log("server running");

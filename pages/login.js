@@ -32,7 +32,12 @@ class Login extends Component {
     }
 
     if (isValid == true) {
-        console.log(isValid);
+      console.log(this.state.form.name.value);
+      let URL = 'http://localhost:3000/usercheck?username='+this.state.form.name.value+'';
+      console.log(URL);
+      fetch(URL).then(response => {
+        console.log(response);
+      })
     } else {
         console.log("error");
         this.setState(form);
@@ -48,7 +53,6 @@ class Login extends Component {
 
   handleValidation = (changeFor) => {
     let tempForm = JSON.parse(JSON.stringify(this.state.form));
-    console.log(tempForm[changeFor].value);
     if (changeFor === 'email') {
       if (tempForm[changeFor].value == '') {
         tempForm[changeFor].error = 'This field is required.';

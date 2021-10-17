@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
+import axios from 'axios';
 
+// component calls of input fields and password field 
 import TextField from '../components/form-fields/input';
 import PasswordField from '../components/form-fields/password';
 
+// sign in component for signin screen 
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -19,11 +22,11 @@ class SignIn extends Component {
     };
   }
 
+  // function for submitting the data 
   formSubmitContent = e => {
     e.preventDefault();
     const {form} = this.state;
 
-    console.log('gurjeet');
 
     let isValid = true;
     for (let key in form) {
@@ -37,19 +40,41 @@ class SignIn extends Component {
 
     if (isValid == true) {
       console.log(isValid);
+      let url = 'http://192.168.1.11:3000/send-data';
+
+      axios({
+        'method': 'POST',
+        'url' : url,
+        'headers':{
+          'content-type':'application/json'
+        },
+        'data': {
+          'firstName':this.state.form.firstName.value,
+          'lastName':this.state.form.lastName.value,
+          'email':this.state.form.email.value,
+          'address':this.state.form.address.value,
+          'username':this.state.form.username.value,
+          'password': this.state.form.password.value,
+        }
+      }).then((response) => {
+        if(response.data.message == "created") {
+          this.props.navigation.navigate('logIn');
+        }
+      })
     } else {
       console.log('error');
       this.setState(form);
     }
   };
 
+  // handle validation on change of values in input fields 
   handleChange = (e, inputName) => {
-    console.log('gurjeet');
     let tempForm = JSON.parse(JSON.stringify(this.state.form));
     tempForm[inputName].value = e;
     this.setState({form: tempForm});
   };
 
+  // function for handling the validation of input fields 
   handleValidation = changeFor => {
     let tempForm = JSON.parse(JSON.stringify(this.state.form));
     let emailReg =
@@ -86,6 +111,7 @@ class SignIn extends Component {
     return (
       <View>
         <Text>Welcome to the kraya please login</Text>
+        {/* Form for users registration  */}
         <TextField
           placeholder="firstname"
           name="firstName"
@@ -139,6 +165,7 @@ class SignIn extends Component {
           handleValidation={e => this.handleValidation('password')}
         />
         <View>
+          {/* button to submit data  */}
           <TouchableOpacity onPress={e => this.formSubmitContent(e)}>
             <Text>Register</Text>
           </TouchableOpacity>

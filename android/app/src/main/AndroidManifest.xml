@@ -2,6 +2,8 @@
   package="com.ecommerce">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <application android:usesCleartextTraffic="true">
+    </application>
 
     <application
       android:name=".MainApplication"

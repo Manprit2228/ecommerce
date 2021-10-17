@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, TextInput} from 'react-native';
 
+
+// input field component 
 const TextField = ({placeholder, name, errorMessage,value, handleValidation, handleChange}) => {
   return (
     <View>

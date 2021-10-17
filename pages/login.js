@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {Component, useRef, useState} from 'react';
 import {Text, TextInput, View, TouchableOpacity} from 'react-native';
 
@@ -10,7 +11,7 @@ class Login extends Component {
     super(props);
     this.state = {
       form: {
-        name: {value: '', error: ''},
+        username: {value: '', error: ''},
         password: {value: '', error: ''},
       },
     };
@@ -32,14 +33,25 @@ class Login extends Component {
     }
 
     if (isValid == true) {
-      console.log(this.state.form.name.value);
-      let URL = 'http://localhost:3000/usercheck?username='+this.state.form.name.value+'';
-      console.log(URL);
-      fetch(URL).then(response => {
-        console.log(response);
+      let url = 'http://192.168.1.11:3000/usercheck';
+
+      axios({
+        'method': 'POST',
+        'url' : url,
+        'headers':{
+          'content-type':'application/json'
+        },
+        'data': {
+          'username':this.state.form.username.value,
+          'password': this.state.form.password.value,
+        }
+      }).then((response) => {
+        if(response.data.message == "user exists") {
+          this.props.navigation.navigate('productList');
+        }
       })
     } else {
-        console.log("error");
+        // console.log("error");
         this.setState(form);
     }
     
@@ -88,11 +100,11 @@ class Login extends Component {
         <Text>Welcome to the kraya please login</Text>
         <TextField
           placeholder="username"
-          name="name"
-          errorMessage={this.state.form.name.error}
-          value={this.state.form.name.value}
-          handleChange={e => this.handleChange(e, 'name')}
-          handleValidation={e => this.handleValidation('name')}
+          name="username"
+          errorMessage={this.state.form.username.error}
+          value={this.state.form.username.value}
+          handleChange={e => this.handleChange(e, 'username')}
+          handleValidation={e => this.handleValidation('username')}
         />
         <PasswordField
           placeholder='password'

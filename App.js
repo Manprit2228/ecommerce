@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignIn from './pages/signin';
 import Login from './pages/login';
+import ProductList from './pages/products-list';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ class App extends Component {
           options={{ title: 'Welcome' }}
         />
         <Stack.Screen name="signIn" component={SignIn} />
+        <Stack.Screen name="productList" component={ProductList} />
       </Stack.Navigator>
     </NavigationContainer>
     )

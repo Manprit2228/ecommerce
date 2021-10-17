@@ -1,13 +1,18 @@
+
+// code to create server using mongoose and express
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
  
  
 app.use(bodyParser.json());
  
 require('./users');
  
+// connecting to the mongoose database using users key
 const users = mongoose.model('users');
 const mongouri = "mongodb+srv://man:5QzrRih2ql24zuxx@cluster0.ndyna.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
  
@@ -23,6 +28,7 @@ mongoose.connection.on("err",(err)=> {
     console.log("error", err); 
 })
  
+// endpoint for fetching all users data 
 app.get('/',(req,res) => {
     users.find({}).then(data => {
         res.send(data);
@@ -31,6 +37,7 @@ app.get('/',(req,res) => {
     })
 })
  
+// endpoint to insert user record in database 
 app.post('/send-data',(req,res) => {
     const userTable = new users({
         firstName:req.body.firstName,
@@ -43,13 +50,16 @@ app.post('/send-data',(req,res) => {
     });
     userTable.save()
     .then(data => {
-        console.log(data);
-        res.send('posted');
+        message = 'created';
+        res.json({status: message});
     }).catch(err=>{
+        message = 'not created';
         console.log(err);
+        res.json({status: message});
     })
 });
  
+// endpoint to delete user 
 app.post('/delete',(req,res) => {
     users.findByIdAndRemove(req.body.id)
     .then(data => {
@@ -60,6 +70,7 @@ app.post('/delete',(req,res) => {
     } )
 })
  
+// endpoint to update user 
 app.post('/update-data',(req,res) => {
  
     users.findByIdAndUpdate(req.body.id, {
@@ -79,8 +90,9 @@ app.post('/update-data',(req,res) => {
     })
 });
 
-app.get('/usercheck', function(req, res) {
-    users.findOne({username:req.body.username}, function(err, user){
+// endpoint for the email and user validation for login screen 
+app.post('/usercheck', function(req, res) {
+    users.findOne({username:req.body.username, password:req.body.password}, function(err, user){
         if(err) {
           console.log(err);
         }

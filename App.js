@@ -13,13 +13,13 @@ class App extends Component {
     return(
       <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="productList" component={ProductList} />
         <Stack.Screen
           name="Home"
           component={Login}
           options={{ title: 'Welcome' }}
         />
         <Stack.Screen name="signIn" component={SignIn} />
-        <Stack.Screen name="productList" component={ProductList} />
       </Stack.Navigator>
     </NavigationContainer>
     )
